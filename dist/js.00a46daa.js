@@ -146,71 +146,33 @@ const DOMSelectors = {
       }); */
 
 exports.DOMSelectors = DOMSelectors;
-},{}],"js/genre.js":[function(require,module,exports) {
-const genres = [{
-  id: 28,
-  name: "Action"
-}, {
-  id: 12,
-  name: "Adventure"
-}, {
-  id: 16,
-  name: "Animation"
-}, {
-  id: 35,
-  name: "Comedy"
-}, {
-  id: 80,
-  name: "Crime"
-}, {
-  id: 99,
-  name: "Documentary"
-}, {
-  id: 18,
-  name: "Drama"
-}, {
-  id: 10751,
-  name: "Family"
-}, {
-  id: 14,
-  name: "Fantasy"
-}, {
-  id: 36,
-  name: "History"
-}, {
-  id: 27,
-  name: "Horror"
-}, {
-  id: 10402,
-  name: "Music"
-}, {
-  id: 9648,
-  name: "Mystery"
-}, {
-  id: 10749,
-  name: "Romance"
-}, {
-  id: 878,
-  name: "Science Fiction"
-}, {
-  id: 10770,
-  name: "TV Movie"
-}, {
-  id: 53,
-  name: "Thriller"
-}, {
-  id: 10752,
-  name: "War"
-}, {
-  id: 37,
-  name: "Western"
-}];
+},{}],"js/genreObject.js":[function(require,module,exports) {
+const genres = {
+  28: "action",
+  12: "Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
+  10751: "Family",
+  36: "History",
+  27: "Horror",
+  10402: "Music",
+  9648: "Mystery",
+  10749: "Romance",
+  878: "Science Fiction",
+  10770: "TV Movie",
+  53: "Thriller",
+  10752: "War",
+  37: "Western"
+};
 },{}],"js/index.js":[function(require,module,exports) {
 "use strict";
 
 var _DOM = require("./DOM");
 
-var _genre = require("./genre");
+var _genreObject = require("./genreObject");
 
 const key = "1fd276ec57b4baedacae00246e5cf4b7";
 
@@ -227,7 +189,7 @@ const query = async function query() {
     console.log(err);
   }
 }; //window.onload = query();
-},{"./DOM":"js/DOM.js","./genre":"js/genre.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./DOM":"js/DOM.js","./genreObject":"js/genreObject.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -255,7 +217,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33947" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33239" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

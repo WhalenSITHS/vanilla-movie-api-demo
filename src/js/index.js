@@ -1,5 +1,5 @@
 import { DOMSelectors } from "./DOM";
-import { genres } from "./genre";
+import { genres } from "./genreObject";
 
 const key = "1fd276ec57b4baedacae00246e5cf4b7";
 
@@ -12,6 +12,7 @@ const query = async function () {
     const data = await response.json();
     data.results.forEach((movie) => {
       let genreArr = movie.genre_ids;
+
       //console.log(genreArr);
       DOMSelectors.grid.insertAdjacentHTML(
         "beforeend",
