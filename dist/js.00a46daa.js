@@ -117,39 +117,117 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"js/index.js":[function(require,module,exports) {
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+})({"js/DOM.js":[function(require,module,exports) {
+"use strict";
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DOMSelectors = void 0;
+const DOMSelectors = {
+  grid: document.querySelector(".movie-grid")
+};
+/*  const genreArr = movie.genre_ids;
+      genreArr.forEach((genre) => {
+        document
+          .querySelector(".movie-genres")
+          .insertAdjacentHTML( const genreArr = movie.genre_ids;
+      genreArr.forEach((genre) => {
+        document
+          .querySelector(".movie-genres")
+          .insertAdjacentHTML(
+            "beforeend",
+            `<li class="movie-genre">genre</li>`
+          );
+      });
+            "beforeend",
+            `<li class="movie-genre">genre</li>`
+          );
+      }); */
 
-var key = "1fd276ec57b4baedacae00246e5cf4b7";
+exports.DOMSelectors = DOMSelectors;
+},{}],"js/genre.js":[function(require,module,exports) {
+const genres = [{
+  id: 28,
+  name: "Action"
+}, {
+  id: 12,
+  name: "Adventure"
+}, {
+  id: 16,
+  name: "Animation"
+}, {
+  id: 35,
+  name: "Comedy"
+}, {
+  id: 80,
+  name: "Crime"
+}, {
+  id: 99,
+  name: "Documentary"
+}, {
+  id: 18,
+  name: "Drama"
+}, {
+  id: 10751,
+  name: "Family"
+}, {
+  id: 14,
+  name: "Fantasy"
+}, {
+  id: 36,
+  name: "History"
+}, {
+  id: 27,
+  name: "Horror"
+}, {
+  id: 10402,
+  name: "Music"
+}, {
+  id: 9648,
+  name: "Mystery"
+}, {
+  id: 10749,
+  name: "Romance"
+}, {
+  id: 878,
+  name: "Science Fiction"
+}, {
+  id: 10770,
+  name: "TV Movie"
+}, {
+  id: 53,
+  name: "Thriller"
+}, {
+  id: 10752,
+  name: "War"
+}, {
+  id: 37,
+  name: "Western"
+}];
+},{}],"js/index.js":[function(require,module,exports) {
+"use strict";
 
-var query = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var response;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return fetch("http://www.omdbapi.com/?s=\"Star Wars\"&apikey=".concat(key));
+var _DOM = require("./DOM");
 
-          case 2:
-            response = _context.sent;
+var _genre = require("./genre");
 
-          case 3:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
+const key = "1fd276ec57b4baedacae00246e5cf4b7";
 
-  return function query() {
-    return _ref.apply(this, arguments);
-  };
-}();
-},{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+const query = async function query() {
+  try {
+    const response = await fetch("https://api.themoviedb.org/3/discover/movie?sort_by=average_vote.asc&vote_count.gte=10000&vote_average.gte=8&api_key=".concat(key, "\n      "));
+    const data = await response.json();
+    data.results.forEach(movie => {
+      let genreArr = movie.genre_ids; //console.log(genreArr);
+
+      _DOM.DOMSelectors.grid.insertAdjacentHTML("beforeend", "<div class=\"movie-card\">\n        <div class=\"movie-card-front\">\n        <img\n        src=\"https://image.tmdb.org/t/p/w300/".concat(movie.poster_path, "\"\n        alt=\"\"\n        class=\"poster\"\n      />\n        </div>\n        <div class=\"movie-card-back\">\n          <h3 class=\"movie-card-header\">").concat(movie.original_title, "</h3>\n          <div class=\"score-box\">\n            <p class=\"user-score\">Community Score</p>\n            <p class=\"user-score\">").concat(movie.vote_average, "</p>\n          </div>\n\n          <div class=\"release-box\">\n            <p class=\"release-date\">Released</p>\n            <p class=\"release-date\">").concat(movie.release_date, "</p>\n          </div>\n\n          <div class=\"movie-genres\">\n          <div>").concat(genreArr, "</div>\n          </div>\n        </div>\n      </div> "));
+    }); //console.log(data.results);
+  } catch (err) {
+    console.log(err);
+  }
+}; //window.onload = query();
+},{"./DOM":"js/DOM.js","./genre":"js/genre.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -177,7 +255,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37587" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33947" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
