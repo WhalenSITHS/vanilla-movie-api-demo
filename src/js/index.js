@@ -1,5 +1,5 @@
 import { DOMSelectors } from "./DOM";
-import { genres } from "./genreObject";
+import { genres } from "./genre";
 
 const key = "1fd276ec57b4baedacae00246e5cf4b7";
 
@@ -11,9 +11,17 @@ const query = async function () {
     );
     const data = await response.json();
     data.results.forEach((movie) => {
-      let genreArr = movie.genre_ids;
+      let genreArr = [];
+      const addGenre = function () {
+        genres.forEach((element) => {
+          if (movie.genre_ids.includes(element.id)) {
+            genreArr.push(element.name);
+            return genreArr;
+          }
+        });
+      };
+      addGenre();
 
-      //console.log(genreArr);
       DOMSelectors.grid.insertAdjacentHTML(
         "beforeend",
         `<div class="movie-card">
@@ -49,4 +57,4 @@ const query = async function () {
     console.log(err);
   }
 };
-//window.onload = query();
+window.onload = query();

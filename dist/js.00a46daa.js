@@ -146,33 +146,78 @@ const DOMSelectors = {
       }); */
 
 exports.DOMSelectors = DOMSelectors;
-},{}],"js/genreObject.js":[function(require,module,exports) {
-const genres = {
-  28: "action",
-  12: "Adventure",
-  16: "Animation",
-  35: "Comedy",
-  80: "Crime",
-  99: "Documentary",
-  18: "Drama",
-  10751: "Family",
-  36: "History",
-  27: "Horror",
-  10402: "Music",
-  9648: "Mystery",
-  10749: "Romance",
-  878: "Science Fiction",
-  10770: "TV Movie",
-  53: "Thriller",
-  10752: "War",
-  37: "Western"
-};
+},{}],"js/genre.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.genres = void 0;
+const genres = [{
+  id: 28,
+  name: "Action"
+}, {
+  id: 12,
+  name: "Adventure"
+}, {
+  id: 16,
+  name: "Animation"
+}, {
+  id: 35,
+  name: "Comedy"
+}, {
+  id: 80,
+  name: "Crime"
+}, {
+  id: 99,
+  name: "Documentary"
+}, {
+  id: 18,
+  name: "Drama"
+}, {
+  id: 10751,
+  name: "Family"
+}, {
+  id: 14,
+  name: "Fantasy"
+}, {
+  id: 36,
+  name: "History"
+}, {
+  id: 27,
+  name: "Horror"
+}, {
+  id: 10402,
+  name: "Music"
+}, {
+  id: 9648,
+  name: "Mystery"
+}, {
+  id: 10749,
+  name: "Romance"
+}, {
+  id: 878,
+  name: "Science Fiction"
+}, {
+  id: 10770,
+  name: "TV Movie"
+}, {
+  id: 53,
+  name: "Thriller"
+}, {
+  id: 10752,
+  name: "War"
+}, {
+  id: 37,
+  name: "Western"
+}];
+exports.genres = genres;
 },{}],"js/index.js":[function(require,module,exports) {
 "use strict";
 
 var _DOM = require("./DOM");
 
-var _genreObject = require("./genreObject");
+var _genre = require("./genre");
 
 const key = "1fd276ec57b4baedacae00246e5cf4b7";
 
@@ -181,15 +226,28 @@ const query = async function query() {
     const response = await fetch("https://api.themoviedb.org/3/discover/movie?sort_by=average_vote.asc&vote_count.gte=10000&vote_average.gte=8&api_key=".concat(key, "\n      "));
     const data = await response.json();
     data.results.forEach(movie => {
-      let genreArr = movie.genre_ids; //console.log(genreArr);
+      let genreArr = [];
+
+      const addGenre = function addGenre() {
+        _genre.genres.forEach(element => {
+          if (movie.genre_ids.includes(element.id)) {
+            genreArr.push(element.name);
+            return genreArr;
+          }
+        });
+      };
+
+      addGenre();
 
       _DOM.DOMSelectors.grid.insertAdjacentHTML("beforeend", "<div class=\"movie-card\">\n        <div class=\"movie-card-front\">\n        <img\n        src=\"https://image.tmdb.org/t/p/w300/".concat(movie.poster_path, "\"\n        alt=\"\"\n        class=\"poster\"\n      />\n        </div>\n        <div class=\"movie-card-back\">\n          <h3 class=\"movie-card-header\">").concat(movie.original_title, "</h3>\n          <div class=\"score-box\">\n            <p class=\"user-score\">Community Score</p>\n            <p class=\"user-score\">").concat(movie.vote_average, "</p>\n          </div>\n\n          <div class=\"release-box\">\n            <p class=\"release-date\">Released</p>\n            <p class=\"release-date\">").concat(movie.release_date, "</p>\n          </div>\n\n          <div class=\"movie-genres\">\n          <div>").concat(genreArr, "</div>\n          </div>\n        </div>\n      </div> "));
     }); //console.log(data.results);
   } catch (err) {
     console.log(err);
   }
-}; //window.onload = query();
-},{"./DOM":"js/DOM.js","./genreObject":"js/genreObject.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+};
+
+window.onload = query();
+},{"./DOM":"js/DOM.js","./genre":"js/genre.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -217,7 +275,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "33239" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39611" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
