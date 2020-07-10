@@ -1,21 +1,7 @@
 const DOMSelectors = {
   grid: document.querySelector(".movie-grid"),
+  searchForm: document.getElementById("search-form"),
+  searchArea: document.getElementById("search-area"),
 };
-/*  const genreArr = movie.genre_ids;
-      genreArr.forEach((genre) => {
-        document
-          .querySelector(".movie-genres")
-          .insertAdjacentHTML( const genreArr = movie.genre_ids;
-      genreArr.forEach((genre) => {
-        document
-          .querySelector(".movie-genres")
-          .insertAdjacentHTML(
-            "beforeend",
-            `<li class="movie-genre">genre</li>`
-          );
-      });
-            "beforeend",
-            `<li class="movie-genre">genre</li>`
-          );
-      }); */
+
 export { DOMSelectors };

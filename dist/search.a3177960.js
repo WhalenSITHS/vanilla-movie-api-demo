@@ -196,41 +196,51 @@ const genres = [{
   name: "Western"
 }];
 exports.genres = genres;
-},{}],"js/index.js":[function(require,module,exports) {
+},{}],"js/search.js":[function(require,module,exports) {
 "use strict";
 
 var _DOM = require("./DOM");
 
 var _genre = require("./genre");
 
-const key = "1fd276ec57b4baedacae00246e5cf4b7";
+const listen = function listen() {
+  _DOM.DOMSelectors.searchForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const searchParams = _DOM.DOMSelectors.searchArea.value;
 
-const query = async function query() {
-  try {
-    const response = await fetch("https://api.themoviedb.org/3/discover/movie?sort_by=average_vote.asc&vote_count.gte=10000&vote_average.gte=8&api_key=".concat(key, "\n      "));
-    const data = await response.json();
-    data.results.forEach(movie => {
-      let genreArr = [];
+    const searchQuery = async function searchQuery() {
+      try {
+        const response = await fetch("https://api.themoviedb.org/3/search/movie?api_key=1fd276ec57b4baedacae00246e5cf4b7&language=en-US&query=".concat(searchParams, "&page=1&include_adult=false"));
+        const results = await response.json();
+        const data = results.results;
+        _DOM.DOMSelectors.grid.innerHTML = "";
+        data.forEach(movie => {
+          let genreArr = [];
 
-      const addGenre = function addGenre() {
-        _genre.genres.forEach(element => {
-          if (movie.genre_ids.includes(element.id)) {
-            genreArr.push(element.name);
-            return genreArr;
-          }
+          const addGenre = function addGenre() {
+            _genre.genres.forEach(element => {
+              if (movie.genre_ids.includes(element.id)) {
+                genreArr.push(element.name);
+                return genreArr;
+              }
+            });
+          };
+
+          addGenre();
+
+          _DOM.DOMSelectors.grid.insertAdjacentHTML("beforeend", "<div class=\"movie-card\">\n              <div class=\"movie-card-front\">\n              <img\n              src=\"https://image.tmdb.org/t/p/w300/".concat(movie.poster_path, "\"\n              alt=\"\"\n              class=\"poster\"\n            />\n              </div>\n              <div class=\"movie-card-back\">\n                <h3 class=\"movie-card-header\">").concat(movie.original_title, "</h3>\n                <div class=\"score-box\">\n                  <p class=\"user-score\">Community Score</p>\n                  <p class=\"user-score\">").concat(movie.vote_average, "</p>\n                </div>\n      \n                <div class=\"release-box\">\n                  <p class=\"release-date\">Released</p>\n                  <p class=\"release-date\">").concat(movie.release_date, "</p>\n                </div>\n      \n                <div class=\"movie-genres\">\n                <div>").concat(genreArr, "</div>\n                </div>\n              </div>\n            </div> "));
         });
-      };
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      addGenre();
-
-      _DOM.DOMSelectors.grid.insertAdjacentHTML("beforeend", "<div class=\"movie-card\">\n        <div class=\"movie-card-front\">\n        <img\n        src=\"https://image.tmdb.org/t/p/w300/".concat(movie.poster_path, "\"\n        alt=\"\"\n        class=\"poster\"\n      />\n        </div>\n        <div class=\"movie-card-back\">\n          <h3 class=\"movie-card-header\">").concat(movie.original_title, "</h3>\n          <div class=\"score-box\">\n            <p class=\"user-score\">Community Score</p>\n            <p class=\"user-score\">").concat(movie.vote_average, "</p>\n          </div>\n\n          <div class=\"release-box\">\n            <p class=\"release-date\">Released</p>\n            <p class=\"release-date\">").concat(movie.release_date, "</p>\n          </div>\n\n          <div class=\"movie-genres\">\n          <div>").concat(genreArr, "</div>\n          </div>\n        </div>\n      </div> "));
-    }); //console.log(data.results);
-  } catch (err) {
-    console.log(err);
-  }
+    searchQuery();
+    _DOM.DOMSelectors.searchArea.value = "";
+  });
 };
 
-window.onload = query();
+listen();
 },{"./DOM":"js/DOM.js","./genre":"js/genre.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -435,5 +445,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/index.js"], null)
-//# sourceMappingURL=/js.00a46daa.js.map
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/search.js"], null)
+//# sourceMappingURL=/search.a3177960.js.map
