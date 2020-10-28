@@ -2,11 +2,13 @@ import { DOMSelectors } from "./DOM";
 import { genres } from "./genre";
 
 const key = "1fd276ec57b4baedacae00246e5cf4b7";
-
-const query = async function () {
+let pageNumber = 1;
+const query = async function (pageNumber) {
+  const page = pageNumber;
+  DOMSelectors.grid.innerHTML = "";
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?sort_by=average_vote.asc&vote_count.gte=10000&vote_average.gte=8&api_key=${key}
+      `https://api.themoviedb.org/3/discover/movie?api_key=${key}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${page}&vote_count.gte=10000&vote_average.gte=8
       `
     );
     const data = await response.json();
@@ -51,10 +53,25 @@ const query = async function () {
       </div> `
       );
     });
-
+    pageNumber = data.page;
+    return pageNumber;
     //console.log(data.results);
   } catch (err) {
     console.log(err);
   }
 };
-window.onload = query();
+const nextPage = function () {
+  DOMSelectors.btnNext.addEventListener("click", function next() {
+    pageNumber++;
+    query(pageNumber);
+  });
+};
+const previousPage = function () {
+  DOMSelectors.btnPrev.addEventListener("click", function prev() {
+    pageNumber--;
+    query(pageNumber);
+  });
+};
+nextPage();
+previousPage();
+query(pageNumber);
